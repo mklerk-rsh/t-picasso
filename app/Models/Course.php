@@ -55,6 +55,11 @@ class Course extends Model
             ->withTimestamps();
     }
 
+    public function exams(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Exam::class);
+    }
+
     public function subjects(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Subject::class, 'course_subject')

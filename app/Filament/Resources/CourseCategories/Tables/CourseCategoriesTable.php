@@ -18,8 +18,7 @@ class CourseCategoriesTable
             ->columns([
                 TextColumn::make('name')
                     ->searchable()
-                    ->sortable()
-                    ->icon(fn ($record) => $record->icon),
+                    ->sortable(),
                 TextColumn::make('slug')
                     ->badge()
                     ->color('gray'),

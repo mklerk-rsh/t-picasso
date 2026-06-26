@@ -30,16 +30,46 @@ class Student extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function courses(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
-        return $this->belongsToMany(Course::class, 'enrollments')
-            ->withPivot(['status', 'enrollment_date', 'progress_percentage'])
-            ->withTimestamps();
-    }
-
     public function enrollments(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Enrollment::class);
+    }
+
+    public function courses(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Course::class, 'enrollments')
+            ->withPivot(['status', 'enrolled_at', 'progress_percentage'])
+            ->withTimestamps();
+    }
+
+    public function courseApplications(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(CourseApplication::class);
+    }
+
+    public function studentCourses(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(StudentCourse::class);
+    }
+
+    public function progressSummary(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(StudentProgressSummary::class);
+    }
+
+    public function examRegistrations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ExamRegistration::class);
+    }
+
+    public function examSubmissions(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ExamSubmission::class);
+    }
+
+    public function examScorecards(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ExamScorecard::class);
     }
 
     public function topicProgress(): \Illuminate\Database\Eloquent\Relations\HasMany

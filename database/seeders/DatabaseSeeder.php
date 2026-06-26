@@ -13,6 +13,8 @@ class DatabaseSeeder extends Seeder
             SuperAdminSeeder::class,
             UniversitySeeder::class,
             CurriculumSeeder::class,
+            EnrollmentSeeder::class,
+            ExamSeeder::class,
         ]);
     }
 }

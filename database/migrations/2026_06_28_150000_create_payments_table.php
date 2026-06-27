@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('student_id')->constrained()->cascadeOnDelete();
             $table->morphs('payable');
-            $table->foreignId('payment_method_id')->nullable()->constrained()->nullOnDelete();
+            $table->unsignedBigInteger('payment_method_id')->nullable();
             $table->decimal('amount', 12, 2);
             $table->string('currency', 3)->default('USD');
             $table->string('status')->default('pending');
@@ -26,7 +26,6 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->index(['payable_type', 'payable_id']);
             $table->index('status');
             $table->index('transaction_ref');
             $table->index('gateway_transaction_id');

@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             CurriculumSeeder::class,
             EnrollmentSeeder::class,
             ExamSeeder::class,
+            Phase6PaymentSeeder::class,
         ]);
     }
 }

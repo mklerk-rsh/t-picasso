@@ -2,7 +2,6 @@
 
 namespace App\Services\Payment;
 
-use App\Contracts\Payment\PaymentGatewayInterface;
 use App\Events\Payment\PaymentCompleted;
 use App\Events\Payment\PaymentFailed;
 use App\Events\Payment\PaymentProcessing;
@@ -15,7 +14,7 @@ use Illuminate\Support\Str;
 class PaymentProcessorService
 {
     public function __construct(
-        private PaymentGatewayInterface $gateway,
+        private PaymentGatewayFactory $gatewayFactory,
         private PaymentVerificationService $verificationService,
     ) {}
 
@@ -34,7 +33,8 @@ class PaymentProcessorService
         ]);
 
         try {
-            $result = $this->gateway->process($payment);
+            $gateway = $this->gatewayFactory->make($payment->gateway ?? 'simulated_mpesa');
+            $result = $gateway->process($payment);
 
             $attempt->update([
                 'request' => ['payment_id' => $payment->id, 'amount' => $payment->amount],
@@ -87,7 +87,8 @@ class PaymentProcessorService
 
     public function refund(Payment $payment, ?float $amount = null): Payment
     {
-        $result = $this->gateway->refund($payment, $amount);
+        $gateway = $this->gatewayFactory->make($payment->gateway ?? 'simulated_mpesa');
+        $result = $gateway->refund($payment, $amount);
 
         if ($result['success'] ?? false) {
             DB::transaction(function () use ($payment, $result) {

@@ -35,4 +35,25 @@ return [
         ],
     ],
 
+    'mpesa' => [
+        'environment' => env('MPESA_ENV', 'sandbox'),
+        'consumer_key' => env('MPESA_CONSUMER_KEY'),
+        'consumer_secret' => env('MPESA_CONSUMER_SECRET'),
+        'shortcode' => env('MPESA_SHORTCODE', '174379'),
+        'passkey' => env('MPESA_PASSKEY'),
+        'callback_url' => env('MPESA_CALLBACK_URL'),
+    ],
+
+    'paypal' => [
+        'mode' => env('PAYPAL_MODE', 'sandbox'),
+        'client_id' => env('PAYPAL_CLIENT_ID'),
+        'client_secret' => env('PAYPAL_CLIENT_SECRET'),
+        'webhook_id' => env('PAYPAL_WEBHOOK_ID'),
+    ],
+
+    'bank' => [
+        'default_currency' => env('BANK_DEFAULT_CURRENCY', 'KES'),
+        'reconciliation_threshold_days' => env('BANK_RECONCILIATION_DAYS', 7),
+    ],
+
 ];

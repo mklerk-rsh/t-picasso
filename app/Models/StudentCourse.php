@@ -13,6 +13,7 @@ class StudentCourse extends Model
         'student_id',
         'course_id',
         'enrollment_id',
+        'status',
         'assigned_at',
         'is_active',
     ];

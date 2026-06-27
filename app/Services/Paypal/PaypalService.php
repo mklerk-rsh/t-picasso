@@ -12,15 +12,15 @@ class PaypalService
 
     public function __construct()
     {
-        $this->baseUrl = env('PAYPAL_MODE', 'sandbox') === 'live'
+        $this->baseUrl = config('services.paypal.mode', 'sandbox') === 'live'
             ? 'https://api-m.paypal.com'
             : 'https://api-m.sandbox.paypal.com';
     }
 
     public function authenticate(): string
     {
-        $clientId = env('PAYPAL_CLIENT_ID');
-        $clientSecret = env('PAYPAL_CLIENT_SECRET');
+        $clientId = config('services.paypal.client_id');
+        $clientSecret = config('services.paypal.client_secret');
 
         $response = Http::withBasicAuth($clientId, $clientSecret)
             ->asForm()

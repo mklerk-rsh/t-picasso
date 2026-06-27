@@ -32,6 +32,9 @@ class PaymentWebhookService
 
     private function validateSignature(string $gateway, array $payload, array $headers): void
     {
+        if (app()->environment('local')) {
+            return;
+        }
     }
 
     private function processWebhook(PaymentWebhook $webhook): void

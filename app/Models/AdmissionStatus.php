@@ -11,8 +11,11 @@ class AdmissionStatus extends Model
 
     protected $fillable = [
         'course_application_id',
+        'student_id',
+        'status',
         'from_status',
         'to_status',
+        'admitted_at',
         'changed_by',
         'remarks',
     ];

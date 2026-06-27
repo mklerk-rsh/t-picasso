@@ -13,15 +13,15 @@ class MpesaService
 
     public function __construct()
     {
-        $this->baseUrl = env('MPESA_ENV', 'sandbox') === 'production'
+        $this->baseUrl = config('services.mpesa.environment', 'sandbox') === 'production'
             ? 'https://api.safaricom.co.ke'
             : 'https://sandbox.safaricom.co.ke';
     }
 
     public function authenticate(): string
     {
-        $consumerKey = env('MPESA_CONSUMER_KEY');
-        $consumerSecret = env('MPESA_CONSUMER_SECRET');
+        $consumerKey = config('services.mpesa.consumer_key');
+        $consumerSecret = config('services.mpesa.consumer_secret');
 
         $response = Http::withBasicAuth($consumerKey, $consumerSecret)
             ->get("{$this->baseUrl}/oauth/v1/generate?grant_type=client_credentials");
@@ -34,8 +34,8 @@ class MpesaService
     {
         $token = $this->accessToken ?? $this->authenticate();
 
-        $shortcode = env('MPESA_SHORTCODE', '174379');
-        $passkey = env('MPESA_PASSKEY');
+        $shortcode = config('services.mpesa.shortcode', '174379');
+        $passkey = config('services.mpesa.passkey');
         $timestamp = date('YmdHis');
         $password = base64_encode($shortcode . $passkey . $timestamp);
 
@@ -48,7 +48,7 @@ class MpesaService
             'PartyA' => $this->formatPhone($phone),
             'PartyB' => $shortcode,
             'PhoneNumber' => $this->formatPhone($phone),
-            'CallBackURL' => env('MPESA_CALLBACK_URL') . '/api/mpesa/callback',
+            'CallBackURL' => config('services.mpesa.callback_url') . '/api/mpesa/callback',
             'AccountReference' => $reference,
             'TransactionDesc' => $description ?: 'Payment',
         ];
@@ -86,8 +86,8 @@ class MpesaService
     public function queryStatus(string $checkoutRequestId): array
     {
         $token = $this->accessToken ?? $this->authenticate();
-        $shortcode = env('MPESA_SHORTCODE', '174379');
-        $passkey = env('MPESA_PASSKEY');
+        $shortcode = config('services.mpesa.shortcode', '174379');
+        $passkey = config('services.mpesa.passkey');
         $timestamp = date('YmdHis');
         $password = base64_encode($shortcode . $passkey . $timestamp);
 
